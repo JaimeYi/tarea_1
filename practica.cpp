@@ -117,7 +117,7 @@ void movimiento(char* tablero, int x, int y){
                 mostrar_movimiento(tablero, indice_nuevo, '*');
             }else{
                 break;
-            }
+            } 
         }
         while (x < 8){
             x++;
@@ -126,7 +126,7 @@ void movimiento(char* tablero, int x, int y){
                 mostrar_movimiento(tablero, indice_nuevo, '*');
             }else{
                 break;
-            }           
+            }            
         }
         while (aux_x > 1){
             aux_x--;
@@ -135,7 +135,7 @@ void movimiento(char* tablero, int x, int y){
                 mostrar_movimiento(tablero, indice_nuevo, '*');
             }else{
                 break;
-            }           
+            }            
         }
         break;
         
@@ -152,20 +152,117 @@ void movimiento(char* tablero, int x, int y){
         }
         break;
 
-    //faltarian estas 2 piezas, la dificil es el alfil que ahora mismo no se me ocurre
-    //la reina seria juntar de alguna forma la torre con el alfil
-
-    /*
+    //Alfil listo
     case 'A':
+        bool diag1 = true;
+        int diag_x = x, diag_y = y;
+        while (diag1){
+            --diag_x;
+            ++diag_y;
+            if ((tablero[coordenadas_a_indice(diag_x,diag_y)] == '.' || tablero[coordenadas_a_indice(diag_x,diag_y)] == '*') && (diag_x < 8 && diag_x > 0) && (diag_y < 8 && diag_y > 0)){
+                mostrar_movimiento(tablero, coordenadas_a_indice(diag_x,diag_y), '*');
+            } else if(tablero[coordenadas_a_indice(diag_x,diag_y)] == 'K' || 'C' || 'T' || 'R' || 'X' || 'P'){ // esto es para que no marque más casillas si se cruza un wn
+                diag1 = false;
+            }else{
+                diag1 = false;
+            }
+        }
 
+        bool diag2 = true;
+        diag_x = x;
+        diag_y = y;
+        while (diag2){
+            ++diag_x;
+            ++diag_y;
+            if ((tablero[coordenadas_a_indice(diag_x,diag_y)] == '.' || tablero[coordenadas_a_indice(diag_x,diag_y)] == '*') && (diag_x < 8 && diag_x > 0) && (diag_y < 8 && diag_y > 0)){
+                mostrar_movimiento(tablero, coordenadas_a_indice(diag_x,diag_y), '*');
+            } else if(tablero[coordenadas_a_indice(diag_x,diag_y)] == 'K' || 'C' || 'T' || 'R' || 'X' || 'P'){
+                diag2 = false;
+            }else{
+                diag2 = false;
+            }
+        }
+
+        bool diag3 = true;
+        diag_x = x;
+        diag_y = y;
+        while (diag3){
+            --diag_x;
+            --diag_y;
+            if ((tablero[coordenadas_a_indice(diag_x,diag_y)] == '.' || tablero[coordenadas_a_indice(diag_x,diag_y)] == '*') && (diag_x < 8 && diag_x > 0) && (diag_y < 8 && diag_y > 0)){
+                mostrar_movimiento(tablero, coordenadas_a_indice(diag_x,diag_y), '*');
+            } else if(tablero[coordenadas_a_indice(diag_x,diag_y)] == 'K' || 'C' || 'T' || 'R' || 'X' || 'P'){
+                diag3 = false;
+            }else{
+                diag3 = false;
+            }
+        }
+
+        bool diag4 = true;
+        diag_x = x;
+        diag_y = y;
+        while (diag4){
+            ++diag_x;
+            --diag_y;
+            if ((tablero[coordenadas_a_indice(diag_x,diag_y)] == '.' || tablero[coordenadas_a_indice(diag_x,diag_y)] == '*') && (diag_x < 8 && diag_x > 0) && (diag_y < 8 && diag_y > 0)){
+                mostrar_movimiento(tablero, coordenadas_a_indice(diag_x,diag_y), '*');
+            } else if(tablero[coordenadas_a_indice(diag_x,diag_y)] == 'K' || 'C' || 'T' || 'R' || 'X' || 'P'){
+                diag4 = false;
+            }else{
+                diag4 = false;
+            }
+        }
+        
         break;
-
+    // Este ctm esta en desarrollo pero más o menos la idea esta
+    /*
     case 'R':
-
+        int eje_y = y, eje_x = x;
+        int eje_neg_y = y, eje_neg_x = x;
+        while (eje_x < 8) {
+            ++eje_x;
+            if (tablero[coordenadas_a_indice(eje_x, y)] == 'A'){
+                eje_x = 8;
+            } else {
+                if (eje_x < 8 && (tablero[coordenadas_a_indice(eje_x, y)] == '.' || tablero[coordenadas_a_indice(eje_x, y)] == '*')){
+                    mostrar_movimiento(tablero, coordenadas_a_indice(eje_x, y), '*');
+                }
+            }
+        }
+        while (eje_y < 8){
+            ++eje_y;
+            if (tablero[coordenadas_a_indice(x, eje_y)] == 'A'){
+                eje_y = 8;
+            } else {
+                if (eje_y < 8 && (tablero[coordenadas_a_indice(x, eje_y)] == '.' || tablero[coordenadas_a_indice(x, eje_y)] == '*')){
+                    mostrar_movimiento(tablero, coordenadas_a_indice(x, eje_y), '*');
+                }
+            }
+        }
+        while (eje_neg_x > 0){
+            --eje_neg_x;
+            if (tablero[coordenadas_a_indice(eje_neg_x, y)] == 'A'){
+                eje_neg_x = 0;
+            } else {
+                if (eje_neg_x > 0 && (tablero[coordenadas_a_indice(eje_neg_x,y)] == '.' || tablero[coordenadas_a_indice(eje_neg_x, y)] == '*')){
+                    mostrar_movimiento(tablero, coordenadas_a_indice(eje_neg_x, y), '*');
+                }
+            }
+        }
+        while (eje_neg_y > 0){
+            --eje_neg_y;
+            if (tablero[coordenadas_a_indice(x, eje_neg_y)] == 'A'){
+                eje_neg_y = 0;
+            } else {
+                if (eje_neg_y > 0 && (tablero[coordenadas_a_indice(x,eje_neg_y)] == '.' || tablero[coordenadas_a_indice(x, eje_neg_y)] == '*')){
+                    mostrar_movimiento(tablero, coordenadas_a_indice(x, eje_neg_y), '*');
+                }
+            }
+        }
         break;
-    */
+        */
     }
-    }
+}
 
 
 //faltaria esta funcion que es la importante al final
@@ -213,18 +310,12 @@ int main(){
     }
 
     */
-
+    tab_completo(tablero_completo, tamano_tablero);
+    for (int m = 0; m < tab.cantidad_piezas; ++m){
+    movimiento(tablero_completo, tab.piezas_tablero[m].x, tab.piezas_tablero[m].y);
+    }
 
    //esto de aca tambien despues se puede borrar, lo use para probar las fichas
-    tab_completo(tablero_completo, tamano_tablero);
-    movimiento(tablero_completo, tab.piezas_tablero[10].x, tab.piezas_tablero[10].y);  
-    movimiento(tablero_completo, tab.piezas_tablero[2].x, tab.piezas_tablero[2].y); 
-    movimiento(tablero_completo, tab.piezas_tablero[0].x, tab.piezas_tablero[0].y);
-    movimiento(tablero_completo, tab.piezas_tablero[5].x, tab.piezas_tablero[5].y);
-    movimiento(tablero_completo, tab.piezas_tablero[6].x, tab.piezas_tablero[6].y);
-    movimiento(tablero_completo, tab.piezas_tablero[12].x, tab.piezas_tablero[12].y);
-    movimiento(tablero_completo, tab.piezas_tablero[1].x, tab.piezas_tablero[1].y);
-    movimiento(tablero_completo, tab.piezas_tablero[11].x, tab.piezas_tablero[11].x);
 
 
 
