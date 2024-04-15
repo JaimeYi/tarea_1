@@ -69,11 +69,10 @@ void mostrar_movimiento(char* tablero, int indice, char mov){
 // esta funcion guarda los posibles movimientos de cada ficha usando un switch
 //tiene que recibir el tablero completo, no el que tiene solo las fichas, sino el que tiene tambien los espacios vacios
 //desde el struct que tiene solo las fichas debe recibir las coordenadas, como lo hago en la parte final del main que ocupe para probar las weas
-void movimiento(char* tablero, int x, int y, int* interrupciones){
+void movimiento(char* tablero, int x, int y, int* interrupciones, int& indice_interrupciones){
     //variable auxiliar para el peon, guarda el valor de la coordenada x, supongo que leyendo abajo vas a entender que hace
     int aux_p = 0;
     int diag_x = x, diag_y = y;
-    int indice_interrupciones = 0;
     //cree estos 2 arreglos con todos los movimientos posibles del rey, si esta en coordenadas (x,y)
     //en cada indice es lo q aumenta o diminuye (x,y). Ej el indice 0 es (0,1), si le sumas eso a (x,y) te queda (x+0, y+1) que es uno de los 8 movimientos posibles
     //y asi con el resto de indices
@@ -458,6 +457,14 @@ void movimiento(char* tablero, int x, int y, int* interrupciones){
         }
         break;
     }
+    cout << indice_interrupciones;
+    cout << '(';
+    for (int h = 0; h < tamano_tablero; h++){
+        if (interrupciones[h] != 0){
+            cout << interrupciones[h] << ',';
+        }
+    }
+    cout << endl;
 }
 
 /*****
@@ -481,8 +488,14 @@ void esJaque(char* tablero, int* interrupciones){
     for (int i = 0; i < tamano_tablero; i++){
         if (tablero[interrupciones[i]] == 'X') {
             tablero[interrupciones[i]] = 'J';
-        } else if ((tablero[interrupciones[i]] == 'A')||(tablero[interrupciones[i]] == 'T')||(tablero[interrupciones[i]] == 'R')||(tablero[interrupciones[i]] == 'C')||(tablero[interrupciones[i]] == 'P')){
-            tablero[interrupciones[i]] = 'V';
+        }
+    }
+}
+
+void casillasContiguas(char* tablero, int* interrupciones){
+    for (int j = 0; j < tamano_tablero; j++){
+        if ((tablero[interrupciones[j]] == 'A')||(tablero[interrupciones[j]] == 'T')||(tablero[interrupciones[j]] == 'R')||(tablero[interrupciones[j]] == 'C')||(tablero[interrupciones[j]] == 'P')){
+            tablero[interrupciones[j]] = 'V';
         }
     }
 }
@@ -491,7 +504,7 @@ void esJaque(char* tablero, int* interrupciones){
  * bool tableroEnJaqueMate
  *****
  * Esta función revisa si el tablero esta en jaque(revisando si el rey es una j o no), de ser asi revisa las casillas contiguas al rey, si no hay ninguna casilla alrededor distinta
- * de '*' o 'V' entonces estara en jauqe mate el tablero.
+ * de '*' o 'V' entonces estara en jaque mate el tablero.
  *****
  * Input:
  * Tablero &tablero : Este argumento es un arreglo de tipo 'Tablero', es usado un argumento de este tipo para poder operar con las posiciones (x,y) del Rey
@@ -555,13 +568,14 @@ int main(){
             }
         }
     }
-
+    int cuenta_interrupciones = 0;
     tab_completo(tablero_completo, tamano_tablero);
     for (int m = 0; m < tab.cantidad_piezas; ++m){
-    movimiento(tablero_completo, tab.piezas_tablero[m].x, tab.piezas_tablero[m].y, interrupciones);
+    movimiento(tablero_completo, tab.piezas_tablero[m].x, tab.piezas_tablero[m].y, interrupciones, cuenta_interrupciones);
     }
 
     esJaque(tablero_completo, interrupciones);
+
 
     int m = 0;
     for (int cuenta = 0; cuenta < tamano_tablero; cuenta++){
